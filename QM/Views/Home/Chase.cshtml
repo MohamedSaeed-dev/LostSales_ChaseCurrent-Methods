@@ -1,0 +1,172 @@
+﻿@{
+
+    ViewData["Title"] = "Chase Cuurent Demand";
+
+    List<string> unit_short = TempData["units_short_chase"] as List<string>;
+    List<string> headers = new List<string>()
+{
+        "Period", "Demand", "Regular time capacity", "Overtime capacity", "Subcontract capacity","Regular time production","Overtime production", "Subcontracting", "Shortage","Units increase", "Units decrease"
+    };
+
+    List<string> units_values = new List<string>()
+{
+        "Regular time","Overtime","Subcontracting","Holding/carrying cost","Increase cost","Decrease cost"
+    };
+
+    int NoPeriod = (int)Context.Session.GetInt32("NoPeriod");
+
+    int Sum()
+    {
+        int sum = 0;
+        for (int i = 0; i < units_values.Count; i++)
+        {
+            sum += int.Parse(TempData[units_values[i]].ToString()) * int.Parse(TempData["Total" + unit_short[i + 4]].ToString());
+
+        };
+        return sum;
+    }
+
+    bool hide(int i)
+    {
+        return int.Parse(TempData["Total" + unit_short[i]].ToString()) == 0;
+    }
+
+    for (int i = 0; i < unit_short.Count; i++)
+    {
+        if (hide(i))
+        {
+            <style>
+            #myTable tr td:nth-child(@(i+2)), #myTable th:nth-child(@(i+2)) {
+                display: none;
+            }
+            </style>
+        }
+    }
+
+}
+
+
+<div class="center">
+
+    <h1 class="text-center">Chase Current Demand</h1>
+
+    <a href="javascript:history.back()" class="btn btn-danger"> <i class="fa fa-arrow-left"></i> Edit Data</a>
+
+
+    <table id="myTable" class="table table-striped table-bordered table-hover my-4">
+        <tr>
+            <th></th>
+            @for (int i = 1; i < headers.Count; i++)
+            {
+                <th>@headers[i]</th>
+            }
+        </tr>
+        <tr>
+            <td>
+                Initial Inventory = @TempData["Initial Inventory"].ToString()
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        @for (int i = 0; i < NoPeriod; i++)
+        {
+            <tr>
+                <td>
+                    @TempData["period" + i]
+                </td>
+                <td>
+                    @TempData["demand" + i]
+                </td>
+                <td>
+                    @TempData["rtc" + i]
+                </td>
+                <td>
+                    @TempData["otc" + i]
+                </td>
+                <td>
+                    @TempData["sc" + i]
+                </td>
+                <td class="result">
+                    @TempData["rtp" + i]
+                </td>
+                <td class="result">
+                    @TempData["otp" + i]
+                </td>
+                <td class="result">
+                    @TempData["sub" + i]
+                </td>
+                <td class="result">
+                    @TempData["short" + i]
+                </td>
+                <td class="result">
+                    @TempData["increase" + i]
+                </td>
+                <td class="result">
+                    @TempData["decrease" + i]
+                </td>
+            </tr>
+        }
+        <tr>
+            <td class="total">
+                Total (Units)
+            </td>
+            @for (int i = 0; i < unit_short.Count; i++)
+            {
+
+                <td class="total"> @TempData["Total" + unit_short[i]]</td>
+
+            }
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            @for (int i = 0; i < units_values.Count; i++)
+            {
+                <td>&#64 $@TempData[units_values[i]] /unit</td>
+            }
+        </tr>
+        <tr>
+            <td class="totally">Subtotal Costs</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            @for (int i = 0; i < units_values.Count; i++)
+            {
+                <td class="totally">
+                    $@(int.Parse(TempData[units_values[i]].ToString()) * int.Parse(TempData[$"Total{unit_short[i+4]}"].ToString()))
+                </td>
+            }
+        </tr>
+        <tr>
+            <td class="totally">
+                Total Cost
+            </td>
+            <td class="totally">
+                $@Sum()
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+
+
+</div>

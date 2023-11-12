@@ -1,0 +1,85 @@
+html {
+    font-size: 8px;
+}
+
+.wrapper {
+    display: flex;
+    gap: 15px;
+    text-align: center;
+    margin: 15px 0 10px 15px;
+}
+
+.tbl1 {
+    width: 500px;
+}
+
+.tbl2 {
+    width: 20px;
+}
+
+.containery {
+    margin: 0 10px 0 10px;
+}
+
+.bordery {
+    width: 30%;
+    border-right: solid 1.5px rgba(128, 128, 128, 0.5);
+    padding-right: 30px;
+}
+.input {
+    margin: 10px 0;
+}
+
+.button {
+    width: 10px;
+}
+
+.btn {
+    width: 100px;
+}
+
+
+.result {
+    font-weight: bolder;
+    color: blue;
+}
+
+.total {
+    color: purple;
+    font-weight: bolder;
+}
+.col1 {
+    width: 80px;
+}
+
+.totally{
+    font-weight: bolder;
+    color:blue;
+    
+}
+
+.center{
+    margin: 0 auto;
+}
+
+
+
+
+
+
+
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
